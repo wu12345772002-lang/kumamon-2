@@ -1,499 +1,375 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🐻 熊本熊の完美旅程</title>
-    <style>
-        :root {
-            --kumamon-black: #1a1a1a;
-            --kumamon-red: #ea2027; /* 腮紅紅 */
-            --bg-color: #fffdf5;
-            --card-bg: #ffffff;
-            --btn-blue: #48dbfb;
-            --btn-green: #1dd1a1;
-            --btn-orange: #ff9f43;
-            --nav-height: 80px;
-        }
-        
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>熊本質感慢旅 4 日遊</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary: #FF8A80; /* 可愛粉紅 */
+        --secondary: #81C784; /* 清新草綠 */
+        --accent: #FFD54F; /* 溫暖鵝黃 */
+        --bg: #FFF8F0; /* 暖色背景 */
+        --text: #5D4037; /* 深咖啡色文字 */
+    }
+    body { font-family: 'Zen Maru Gothic', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.7; }
+    
+    .container { max-width: 800px; margin: -60px auto 40px; padding: 0 20px; position: relative; z-index: 10; }
+    
+    /* --- 可愛插圖區塊 --- */
+    .css-illustration {
+        height: 200px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 100px; 
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* --- 真實照片樣式 (Day 1 專用) --- */
+    .real-photo-container {
+        height: 250px; /* 照片區塊高度 */
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+    .real-photo-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 確保照片填滿且不變形 */
+    }
 
-        body {
-            font-family: "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            /* 背景加上淡淡的熊本熊腮紅圓點 */
-            background-image: radial-gradient(#ffeaa7 15%, transparent 16%), radial-gradient(#fab1a0 15%, transparent 16%);
-            background-size: 60px 60px;
-            background-position: 0 0, 30px 30px;
-            margin: 0; padding: 0; padding-bottom: 110px;
-            color: #444; font-size: 16px; line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        /* === 標題區 === */
-        header {
-            background-color: var(--kumamon-black);
-            color: white; padding: 15px;
-            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            position: sticky; top: 0; z-index: 100;
-            display: flex; justify-content: center; align-items: center;
-        }
-        header h1 { margin: 0; font-size: 1.5rem; display: flex; align-items: center; }
+    /* Header 背景 */
+    .header-bg {
+        background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        height: 350px;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        color: white; text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    /* 插圖背景色 */
+    .day2-ill { background: linear-gradient(120deg, #f6d365 0%, #fda085 100%); }
+    .day3-ill { background: linear-gradient(to top, #96fbc4 0%, #f9f586 100%); }
+    .day4-ill { background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); }
+    
+    /* 裝飾圓點 */
+    .deco-circle { position: absolute; border-radius: 50%; opacity: 0.2; background: white; }
 
-        /* === 內容區 === */
-        .day-content {
-            display: none; padding: 20px; max-width: 600px; margin: 0 auto;
-            animation: slideUp 0.4s ease-out;
-        }
-        .day-content.active { display: block; }
+    /* --- 其他樣式 --- */
+    header h1 { font-size: 2.5rem; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    header p { font-size: 1.2rem; margin-top: 10px; font-weight: bold; }
 
-        /* === 卡片樣式 === */
-        .card {
-            background: var(--card-bg); border-radius: 25px; padding: 20px;
-            margin-bottom: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            position: relative; border: 4px solid white;
-        }
-        .card-tag {
-            position: absolute; top: 0; left: 0;
-            padding: 6px 16px; border-bottom-right-radius: 20px;
-            color: white; font-weight: bold; font-size: 0.9rem;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-        }
-        .card.transport .card-tag { background: #54a0ff; }
-        .card.spot .card-tag { background: #ff6b6b; }
-        .card.food .card-tag { background: #feca57; color: #555; }
+    .card { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.05); margin-bottom: 35px; border: 3px solid #FFF; }
+    .card-body { padding: 25px; }
 
-        .card-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 5px; color: #333; margin-top: 15px; }
-        .card-desc { font-size: 1rem; color: #666; margin-bottom: 15px; }
+    h2 { color: var(--primary); margin-top: 0; font-size: 1.5rem; border-bottom: 3px dotted var(--primary); padding-bottom: 10px; }
+    
+    .day-badge { background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; display: inline-block; margin-bottom: 10px; box-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+    
+    .transport { display: inline-block; background: #E8F5E9; color: var(--secondary); padding: 3px 10px; border-radius: 10px; font-size: 0.85rem; margin-right: 5px; font-weight: bold; }
+    
+    .nav-btn {
+        display: inline-flex; align-items: center;
+        background: #E3F2FD; color: #42A5F5;
+        text-decoration: none; padding: 5px 15px; border-radius: 25px;
+        font-size: 0.85rem; font-weight: bold; margin-left: 5px;
+        border: 2px solid #BBDEFB; transition: all 0.2s;
+    }
+    .nav-btn:hover { background: #42A5F5; color: white; border-color: #42A5F5; }
 
-        /* === 按鈕樣式 === */
-        .btn-nav {
-            display: flex; align-items: center; justify-content: center;
-            width: 100%; padding: 12px 0; color: white; text-decoration: none;
-            border-radius: 20px; font-weight: bold; font-size: 1.05rem;
-            box-shadow: 0 5px 0 rgba(0,0,0,0.15); transition: transform 0.1s; margin-top: 10px;
-        }
-        .btn-nav:active { transform: translateY(4px); box-shadow: none; }
-        .bg-blue { background-color: #54a0ff; }
-        .bg-green { background-color: #1dd1a1; }
-        .bg-orange { background-color: #ff9f43; }
-        .bg-purple { background-color: #a55eea; }
+    .timeline-item { display: flex; margin-bottom: 25px; border-left: 4px dotted #eee; padding-left: 15px; margin-left: 10px; }
+    .time { font-weight: bold; color: #888; min-width: 65px; font-size: 1.1rem; }
+    .content { flex: 1; }
+    .place-name { font-weight: bold; font-size: 1.15rem; color: var(--text); display: block; margin-bottom: 5px; }
 
-        /* === 餐廳列表 === */
-        .food-option {
-            background: #FAFAFA; border-radius: 15px; padding: 10px 15px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee;
-        }
-        .food-name { font-weight: bold; color: #444; font-size: 0.95rem; }
-        .btn-mini {
-            background: white; border: 2px solid #ff9f43; color: #ff9f43;
-            padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;
-            text-decoration: none; font-weight: bold;
-        }
+    .airport-box { background: #E0F7FA; border: 3px dashed #4DD0E1; border-radius: 15px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; }
+    .airport-icon { font-size: 2.2rem; margin-right: 15px; }
 
-        /* === CSS 繪製熊本熊 (核心元件) === */
-        .kumamon {
-            width: 60px; height: 60px; background: black; border-radius: 50%;
-            position: relative; border: 2px solid white; display: inline-block;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        /* 變體 */
-        .kumamon.small { transform: scale(0.6); margin: -10px; border: 1px solid white; }
-        .kumamon.large { width: 80px; height: 80px; border: 3px solid white; }
-        
-        /* 熊五官 */
-        .k-ear { width: 26%; height: 26%; background: black; border-radius: 50%; position: absolute; top: -5%; border: 2px solid white; }
-        .k-ear.L { left: 5%; } .k-ear.R { right: 5%; }
-        .k-brow { width: 20%; height: 8%; background: white; border-radius: 10px; position: absolute; top: 25%; }
-        .k-brow.L { left: 20%; transform: rotate(10deg); } .k-brow.R { right: 20%; transform: rotate(-10deg); }
-        .k-eye { width: 20%; height: 20%; background: white; border-radius: 50%; position: absolute; top: 38%; }
-        .k-eye.L { left: 22%; } .k-eye.R { right: 22%; }
-        .k-pupil { width: 30%; height: 70%; background: black; border-radius: 50%; position: absolute; top: 15%; left: 35%; }
-        .k-cheek { width: 24%; height: 24%; background: var(--kumamon-red); border-radius: 50%; position: absolute; top: 45%; z-index: 2; }
-        .k-cheek.L { left: 2%; } .k-cheek.R { right: 2%; }
-        .k-snout { width: 36%; height: 30%; background: white; border-radius: 50%; position: absolute; bottom: 12%; left: 32%; z-index: 3; }
-        .k-nose { width: 40%; height: 30%; background: black; border-radius: 50%; position: absolute; top: 20%; left: 30%; }
+    .food-section { background: #FFFDE7; border-radius: 15px; padding: 20px; margin-top: 20px; position: relative; border: 3px solid #FFF59D; }
+    .food-section::before { content: '🍴'; position: absolute; top: -15px; left: 20px; font-size: 24px; background: #FFFDE7; padding: 0 5px; }
+    .food-title { color: #F9A825; font-weight: bold; margin-bottom: 12px; display: block; font-size: 1.05rem; }
+    .food-item { margin-bottom: 12px; border-bottom: 2px dashed #eee; padding-bottom: 8px; }
+    .food-item:last-child { border: none; padding-bottom: 0; }
 
-        /* === 躲在螢幕邊緣的熊 === */
-        .peeking-bear {
-            position: fixed; bottom: 100px; left: -30px; z-index: 900;
-            transform: rotate(20deg); animation: peek 5s infinite;
-        }
+    .map-container { text-align: center; padding: 30px; background: white; border-radius: 24px; margin-top: 30px; border: 3px solid #eee; }
+    .map-placeholder {
+        height: 200px; background: #e0f7fa; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 80px; color: #4dd0e1; border: 3px dashed #b2ebf2;
+    }
 
-        /* === 浮動導覽按鈕 (Kumamon FAB) === */
-        .fab-container {
-            position: fixed; bottom: 100px; right: 20px; z-index: 1000;
-            cursor: pointer; animation: bounce 3s infinite;
-        }
-        .fab-label {
-            position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%);
-            background: white; padding: 4px 10px; border-radius: 15px;
-            font-size: 0.8rem; font-weight: bold; color: #333; white-space: nowrap;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 2px solid #eee;
-        }
-
-        /* === 導覽手冊 (Modal) === */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 2000; align-items: flex-end;
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: #FFF; width: 100%; height: 92%;
-            border-top-left-radius: 30px; border-top-right-radius: 30px;
-            padding: 0; overflow-y: auto; position: relative;
-            animation: slideUp 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .modal-header {
-            position: sticky; top: 0; background: white; padding: 15px;
-            text-align: center; border-bottom: 1px solid #eee; z-index: 10;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .close-btn {
-            position: absolute; top: 15px; right: 20px; background: #f1f2f6;
-            width: 36px; height: 36px; border-radius: 50%; text-align: center;
-            line-height: 36px; font-size: 1.5rem; color: #555; cursor: pointer;
-        }
-        
-        .guide-body { padding: 25px; padding-bottom: 60px; }
-        .guide-img {
-            width: 100%; height: 200px; object-fit: cover; border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 15px;
-            background-color: #eee; /* 圖片載入前的底色 */
-            display: block;
-        }
-        .guide-title {
-            font-size: 1.3rem; font-weight: bold; border-left: 6px solid var(--kumamon-red);
-            padding-left: 10px; margin: 35px 0 15px 0; color: #222;
-        }
-
-        /* === 可愛地圖 (Cute Map) === */
-        .cute-map {
-            position: relative; margin: 20px 0; padding-left: 20px;
-        }
-        .map-line {
-            position: absolute; top: 10px; bottom: 10px; left: 29px; width: 4px;
-            background: repeating-linear-gradient(to bottom, #ddd 0, #ddd 10px, transparent 10px, transparent 20px);
-            z-index: 0;
-        }
-        .map-item {
-            display: flex; align-items: center; margin-bottom: 25px; position: relative; z-index: 1;
-        }
-        .map-icon-box {
-            width: 60px; height: 60px; background: white; border-radius: 50%;
-            border: 3px solid var(--kumamon-red); display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; margin-right: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .map-text h4 { margin: 0; font-size: 1.1rem; color: #333; }
-        .map-text p { margin: 2px 0 0 0; font-size: 0.9rem; color: #777; }
-
-        /* === 底部導航 === */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height);
-            background: white; display: flex; justify-content: space-around; align-items: center;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 900;
-            border-top-left-radius: 30px; border-top-right-radius: 30px;
-        }
-        .nav-item {
-            border: none; background: none; flex: 1; text-align: center; color: #BBB;
-            font-size: 0.75rem; cursor: pointer; transition: 0.2s;
-        }
-        .nav-icon { font-size: 1.6rem; display: block; margin-bottom: 4px; transition: 0.2s; }
-        .nav-item.active { color: var(--kumamon-red); transform: translateY(-5px); }
-        .nav-item.active .nav-icon { transform: scale(1.2); }
-
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes peek { 0%, 100% { left: -30px; } 50% { left: -5px; } }
-    </style>
+    @media (max-width: 600px) {
+        header { height: 280px; }
+        header h1 { font-size: 2rem; }
+        .timeline-item { flex-direction: column; border-left: none; padding-left: 0; margin-left: 0; }
+        .time { margin-bottom: 5px; background: #eee; display: inline-block; padding: 2px 10px; border-radius: 10px; }
+        .css-illustration { height: 160px; font-size: 80px; }
+        .real-photo-container { height: 200px; }
+    }
+</style>
 </head>
 <body>
 
-<header>
-    <div class="kumamon small" style="margin-right: 10px;">
-        <div class="k-ear L"></div><div class="k-ear R"></div>
-        <div class="k-brow L"></div><div class="k-brow R"></div>
-        <div class="k-eye L"><div class="k-pupil"></div></div>
-        <div class="k-eye R"><div class="k-pupil"></div></div>
-        <div class="k-cheek L"></div><div class="k-cheek R"></div>
-        <div class="k-snout"><div class="k-nose"></div></div>
-    </div>
-    <h1>熊本熊の旅</h1>
-    <div class="kumamon small" style="margin-left: 10px;">
-        <div class="k-ear L"></div><div class="k-ear R"></div>
-        <div class="k-brow L"></div><div class="k-brow R"></div>
-        <div class="k-eye L"><div class="k-pupil"></div></div>
-        <div class="k-eye R"><div class="k-pupil"></div></div>
-        <div class="k-cheek L"></div><div class="k-cheek R"></div>
-        <div class="k-snout"><div class="k-nose"></div></div>
-    </div>
+<header class="header-bg">
+    <div class="deco-circle" style="width: 100px; height: 100px; top: 20px; left: 20px;"></div>
+    <div class="deco-circle" style="width: 150px; height: 150px; bottom: -30px; right: -30px;"></div>
+    <h1>🐻 熊本質感慢旅</h1>
+    <p>古城・庭園・極致美食 4 日遊</p>
 </header>
 
-<div class="peeking-bear">
-    <div class="kumamon large">
-        <div class="k-ear L"></div><div class="k-ear R"></div>
-        <div class="k-eye L"><div class="k-pupil"></div></div>
-        <div class="k-eye R"><div class="k-pupil"></div></div>
-        <div class="k-cheek L"></div><div class="k-cheek R"></div>
-        <div class="k-snout"><div class="k-nose"></div></div>
-    </div>
-</div>
+<div class="container">
 
-<div class="fab-container" onclick="openGuide()">
-    <div class="kumamon large">
-        <div class="k-ear L"></div><div class="k-ear R"></div>
-        <div class="k-brow L"></div><div class="k-brow R"></div>
-        <div class="k-eye L"><div class="k-pupil"></div></div>
-        <div class="k-eye R"><div class="k-pupil"></div></div>
-        <div class="k-cheek L"></div><div class="k-cheek R"></div>
-        <div class="k-snout"><div class="k-nose"></div></div>
-    </div>
-    <div class="fab-label">旅遊手冊</div>
-</div>
-
-<div id="day1" class="day-content active">
-    <div class="card transport">
-        <div class="card-tag">15:00</div>
-        <div class="card-title">✈️ 機場 ➝ 飯店</div>
-        <div class="card-desc">
-            搭乘「空港利木津巴士」。<br>
-            在<strong>「櫻町巴士總站」</strong>下車直達。
+    <div class="card">
+        <div class="real-photo-container">
+            <img src="images/2026-02-04.webp" alt="Sakuramachi Kumamoto">
         </div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=KOKO+HOTEL+Premier+Kumamoto&travelmode=transit" class="btn-nav bg-blue" target="_blank">📍 導航去飯店</a>
-    </div>
+        <div class="card-body">
+            <span class="day-badge">Day 1</span>
+            <h2>抵達與放鬆</h2>
 
-    <div class="card spot">
-        <div class="card-tag">16:30</div>
-        <div class="card-title">🎨 熊本現代美術館</div>
-        <div class="card-desc">免費優雅的休息區，有舒服沙發。</div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Kumamoto+City+Contemporary+Art+Museum&travelmode=walking" class="btn-nav bg-green" target="_blank">🚶 導航去美術館</a>
-    </div>
-
-    <div class="card food">
-        <div class="card-tag">晚餐 3選1</div>
-        <div class="card-title" style="margin-top: 25px;">🥢 下通商店街</div>
-        <div class="food-option">
-            <span class="food-name">1. 勝烈亭 豬排 (熟)</span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Katsuretsu+Tei+Shinshigai&travelmode=walking" class="btn-mini" target="_blank">導航</a>
-        </div>
-        <div class="food-option">
-            <span class="food-name">2. 紅蘭亭 太平燕</span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Kourantei+Shimotori&travelmode=walking" class="btn-mini" target="_blank">導航</a>
-        </div>
-        <div class="food-option">
-            <span class="food-name">3. 峰壽司 (熟/生)</span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Mine+Sushi+Sannenzaka&travelmode=walking" class="btn-mini" target="_blank">導航</a>
-        </div>
-    </div>
-    
-    <a href="https://www.google.com/maps/dir/?api=1&destination=KOKO+HOTEL+Premier+Kumamoto" class="btn-nav bg-purple" target="_blank">🏠 導航回飯店</a>
-</div>
-
-<div id="day2" class="day-content">
-    <div class="card transport">
-        <div class="card-tag">10:00</div>
-        <div class="card-title">🚃 懷舊電車</div>
-        <div class="card-desc">飯店旁「辛島町」➝ 水前寺公園</div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Karashimacho+Station&travelmode=walking" class="btn-nav bg-blue" target="_blank">🚶 導航去電車站</a>
-    </div>
-
-    <div class="card spot">
-        <div class="card-tag">10:30</div>
-        <div class="card-title">🍵 水前寺成趣園</div>
-        <div class="card-desc">去「古今傳授之間」喝抹茶。</div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Suizenji+Jojuen&travelmode=transit" class="btn-nav bg-green" target="_blank">📍 導航去水前寺</a>
-    </div>
-
-    <div class="card spot">
-        <div class="card-tag">15:00</div>
-        <div class="card-title">🔭 市役所展望台</div>
-        <div class="card-desc">14樓免費看城堡全景。</div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Kumamoto+City+Hall&travelmode=transit" class="btn-nav bg-green" target="_blank">📍 導航去市役所</a>
-    </div>
-
-    <div class="card food">
-        <div class="card-tag">晚餐 3選1</div>
-        <div class="card-title" style="margin-top: 25px;">🥢 飯店周邊</div>
-        <div class="food-option">
-            <span class="food-name">1. 壽司 牛深丸</span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Ushibukamaru+Sakuramachi" class="btn-mini" target="_blank">導航</a>
-        </div>
-        <div class="food-option">
-            <span class="food-name">2. 敘敘苑 燒肉</span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Jojoen+Sakuramachi" class="btn-mini" target="_blank">導航</a>
-        </div>
-    </div>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=KOKO+HOTEL+Premier+Kumamoto" class="btn-nav bg-purple" target="_blank">🏠 導航回飯店</a>
-</div>
-
-<div id="day3" class="day-content">
-    <div class="card spot">
-        <div class="card-tag">10:00</div>
-        <div class="card-title">🏯 熊本城 & 城彩苑</div>
-        <div class="card-desc"><strong>請務必搭乘免費接駁車上山。</strong></div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Sakuranobaba+Johsaien&travelmode=walking" class="btn-nav bg-green" target="_blank">🚶 導航去城彩苑</a>
-    </div>
-
-    <div class="card transport">
-        <div class="card-tag">14:30</div>
-        <div class="card-title">🛍️ 熊本車站 (Amu)</div>
-        <div class="card-desc">有漂亮室內瀑布的百貨公司。</div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Kumamoto+Station&travelmode=transit" class="btn-nav bg-blue" target="_blank">🚃 導航去車站</a>
-    </div>
-
-    <div class="card food">
-        <div class="card-tag">晚餐 3選1</div>
-        <div class="card-title" style="margin-top: 25px;">🥢 車站美食</div>
-        <div class="food-option">
-            <span class="food-name">1. 天婦羅 Hero</span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Tempura+Takao+Amu+Plaza+Kumamoto" class="btn-mini" target="_blank">導航</a>
-        </div>
-        <div class="food-option">
-            <span class="food-name">2. 菅乃屋 (車站店)</span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Suganoya+Kumamoto+Station" class="btn-mini" target="_blank">導航</a>
-        </div>
-    </div>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=KOKO+HOTEL+Premier+Kumamoto" class="btn-nav bg-purple" target="_blank">🏠 導航回飯店</a>
-</div>
-
-<div id="day4" class="day-content">
-    <div class="card spot">
-        <div class="card-tag">09:30</div>
-        <div class="card-title">🐻 空中花園</div>
-        <div class="card-desc">去飯店頂樓跟巨大的熊本熊合照！</div>
-    </div>
-
-    <div class="card transport">
-        <div class="card-tag">回家</div>
-        <div class="card-title">✈️ 前往機場</div>
-        <div class="card-desc">飯店樓下搭巴士直達。</div>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Aso+Kumamoto+Airport" class="btn-nav bg-blue" target="_blank">📍 導航去機場</a>
-    </div>
-</div>
-
-<div id="guideModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="kumamon small" style="margin-right:10px;">
-                <div class="k-ear L"></div><div class="k-ear R"></div>
-                <div class="k-eye L"><div class="k-pupil"></div></div>
-                <div class="k-eye R"><div class="k-pupil"></div></div>
-                <div class="k-cheek L"></div><div class="k-cheek R"></div>
-                <div class="k-snout"><div class="k-nose"></div></div>
+            <div class="airport-box">
+                <div class="airport-icon">✈️</div>
+                <div>
+                    <strong>抵達熊本機場</strong><br>
+                    請至國際線航廈外 <strong>1 號站牌</strong> 搭乘機場巴士。<br>
+                    <span class="transport">目的地</span> 櫻町巴士總站 (約 50 分鐘)
+                </div>
             </div>
-            <h2 style="margin:0; font-size:1.3rem;">旅遊小手冊</h2>
-            <div class="close-btn" onclick="closeGuide()">×</div>
+
+            <div class="timeline-item">
+                <div class="time">15:30</div>
+                <div class="content">
+                    <span class="place-name">KOKO HOTEL Premier 辦理入住</span>
+                    <span class="transport">位置</span> 櫻町商場樓上 (巴士下車直達)
+                    <br><span style="font-size: 0.9em; color: #666;">就是照片這棟漂亮的建築！</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=KOKO+HOTEL+Premier+Kumamoto" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time">16:30</div>
+                <div class="content">
+                    <span class="place-name">櫻町空中花園 (5F)</span>
+                    <span class="transport">步行</span> 搭飯店電梯至 5 樓
+                    <br>不用出門即可遠眺熊本城。
+                </div>
+            </div>
+
+            <div class="food-section">
+                <span class="food-title">晚餐推薦 (櫻町商場內)</span>
+                <div class="food-item">
+                    <strong>1. 菅乃屋 (馬肉/熟食)</strong> <span class="transport">櫻町 B1</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suganoya+Sakuramachi" target="_blank" class="nav-btn">導航</a>
+                </div>
+                <div class="food-item">
+                    <strong>2. 敘敘苑 (燒肉)</strong> <span class="transport">櫻町 3F</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Jojoen+Sakuramachi" target="_blank" class="nav-btn">導航</a>
+                </div>
+                <div class="food-item">
+                    <strong>3. 利久牛舌 (定食)</strong> <span class="transport">櫻町 3F</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Riku+Sakuramachi" target="_blank" class="nav-btn">導航</a>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="guide-body">
-            <div class="guide-title">🏨 住宿：Sakura Machi</div>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Sakuramachi_Kumamoto_20190924.jpg/800px-Sakuramachi_Kumamoto_20190924.jpg" 
-                 class="guide-img" 
-                 alt="Koko Hotel 外觀"
-                 onerror="this.src='https://placehold.co/600x400/e67e22/FFF?text=Koko+Hotel+Building';">
-            <p style="color:#666;">
-                <strong>KOKO Hotel 就在這！</strong><br>
-                這棟像公園一樣漂亮的建築就是「櫻町 (Sakura Machi)」。飯店大廳在2樓，巴士站就在1樓，非常方便。
-            </p>
+    <div class="card">
+        <div class="css-illustration day2-ill">
+            🏯🌸
+            <div class="deco-circle" style="width: 120px; height: 120px; bottom: -20px; left: -20px;"></div>
+        </div>
+        <div class="card-body">
+            <span class="day-badge">Day 2</span>
+            <h2>古城巡禮與神社</h2>
 
-            <div class="guide-title">🍵 景點：水前寺成趣園</div>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Suizenji_Jojuen_Garden_Kumamoto_Japan.jpg/800px-Suizenji_Jojuen_Garden_Kumamoto_Japan.jpg" 
-                 class="guide-img" 
-                 alt="水前寺"
-                 onerror="this.src='https://placehold.co/600x400/2ecc71/FFF?text=Garden';">
-            <p style="color:#666;">
-                這裡有縮小版的「富士山」造景。是一座非常優雅的日式迴遊庭園。
-            </p>
-
-            <div class="guide-title">🏯 景點：熊本城</div>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Kumamoto_Castle_2008.jpg/800px-Kumamoto_Castle_2008.jpg" 
-                 class="guide-img" 
-                 alt="熊本城"
-                 onerror="this.src='https://placehold.co/600x400/34495e/FFF?text=Kumamoto+Castle';">
-            <p style="color:#666;">
-                日本三大名城之一，黑色外觀非常帥氣。記得搭接駁車上去喔！
-            </p>
-
-            <div class="guide-title">🗺️ 旅行足跡</div>
-            <div class="cute-map">
-                <div class="map-line"></div>
-                
-                <div class="map-item">
-                    <div class="map-icon-box">✈️</div>
-                    <div class="map-text">
-                        <h4>Day 1</h4>
-                        <p>抵達機場 ➝ 飯店</p>
-                    </div>
-                </div>
-
-                <div class="map-item">
-                    <div class="map-icon-box">🍵</div>
-                    <div class="map-text">
-                        <h4>Day 2</h4>
-                        <p>水前寺庭園 ➝ 展望台</p>
-                    </div>
-                </div>
-
-                <div class="map-item">
-                    <div class="map-icon-box">🏯</div>
-                    <div class="map-text">
-                        <h4>Day 3</h4>
-                        <p>熊本城 ➝ 車站百貨</p>
-                    </div>
-                </div>
-
-                <div class="map-item">
-                    <div class="map-icon-box">🏠</div>
-                    <div class="map-text">
-                        <h4>Day 4</h4>
-                        <p>空中花園 ➝ 回家</p>
-                    </div>
+            <div class="timeline-item">
+                <div class="time">10:00</div>
+                <div class="content">
+                    <span class="place-name">熊本城 (天守閣)</span>
+                    <span class="transport">🚊 市電</span> 熊本城・市役所前站
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kumamoto+Castle" target="_blank" class="nav-btn">📍 導航</a>
                 </div>
             </div>
             
+            <div class="timeline-item">
+                <div class="time">11:30</div>
+                <div class="content">
+                    <span class="place-name">加藤神社</span>
+                    <span class="transport">步行</span> 位於城內，步行約 5 分鐘
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kato+Shrine" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="food-section" style="border-color: #81C784; background: #E8F5E9;">
+                <span class="food-title" style="color:#2E7D32">午餐推薦 (櫻之馬場 城彩苑)</span>
+                <div class="food-item">
+                    <strong>1. 山見茶屋 (阿蘇紅牛丼)</strong>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Yamami+Chaya+Josaien" target="_blank" class="nav-btn">導航</a>
+                </div>
+                <div class="food-item">
+                    <strong>2. 櫻道 (精緻定食)</strong>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Sakuramichi+Josaien" target="_blank" class="nav-btn">導航</a>
+                </div>
+            </div>
+
+            <div class="timeline-item" style="margin-top: 20px;">
+                <div class="time">13:30</div>
+                <div class="content">
+                    <span class="place-name">櫻之馬場 城彩苑 (自由逛街)</span>
+                    <span class="transport">步行</span> 位於熊本城旁
+                    <br>充滿江戶風情的商店街，有許多特色小吃。
+                    <a href="https://www.google.com/maps/search/?api=1&query=Yamami+Chaya+Josaien" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time">15:00</div>
+                <div class="content">
+                    <span class="place-name">熊本城稻荷神社</span>
+                    <span class="transport">步行</span> 位於城彩苑旁
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kumamoto+Castle+Inari+Shrine" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time">16:30</div>
+                <div class="content">
+                    <span class="place-name">下通商店街 (漫步)</span>
+                    <span class="transport">🚊 市電</span> 通町筋站
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kourantei+Shimotori" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="food-section">
+                <span class="food-title">晚餐推薦 (新市街/下通)</span>
+                <div class="food-item">
+                    <strong>1. 勝烈亭豬排 (米其林推薦)</strong> <span class="transport">🚊 辛島町站</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Katsuretsutei+Shinshigai" target="_blank" class="nav-btn">導航</a>
+                </div>
+                <div class="food-item">
+                    <strong>2. 紅蘭亭 (太平燕)</strong> <span class="transport">🚊 通町筋站</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kourantei+Shimotori" target="_blank" class="nav-btn">導航</a>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="card">
+        <div class="css-illustration day3-ill">
+            🍵🌳
+            <div class="deco-circle" style="width: 100px; height: 100px; top: -10px; left: 30px;"></div>
+        </div>
+        <div class="card-body">
+            <span class="day-badge">Day 3</span>
+            <h2>絕美庭園與市區散策</h2>
+
+            <div class="timeline-item">
+                <div class="time">10:30</div>
+                <div class="content">
+                    <span class="place-name">水前寺成趣園</span>
+                    <span class="transport">🚊 市電</span> 水前寺公園站
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suizenji+Jojuen" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="food-section" style="border-color: #81C784; background: #E8F5E9;">
+                <span class="food-title" style="color:#2E7D32">午餐推薦</span>
+                <div class="food-item">
+                    <strong>1. 水前寺 泉里 (景觀餐廳)</strong> <span class="transport">步行</span> 成趣園旁
+                    <a href="https://www.google.com/maps/search/?api=1&query=Izumi+Suizenji" target="_blank" class="nav-btn">導航</a>
+                </div>
+                <div class="food-item">
+                    <strong>2. 壽司三味 (壽司)</strong> <span class="transport">🚊 通町筋站</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Sushi+Zanmai+Kumamoto" target="_blank" class="nav-btn">導航</a>
+                </div>
+            </div>
+
+            <div class="timeline-item" style="margin-top: 20px;">
+                <div class="time">14:00</div>
+                <div class="content">
+                    <span class="place-name">藤崎八旛宮</span>
+                    <span class="transport">🚊 市電</span> 水道町站 (需步行10分)
+                    <a href="https://www.google.com/maps/search/?api=1&query=Fujisaki+Hachimangu" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time">15:30</div>
+                <div class="content">
+                    <span class="place-name">熊本市現代美術館 (CAMK)</span>
+                    <span class="transport">🚊 市電</span> 通町筋站
+                    <br>位於市中心，建築本身就很有特色，常有不同主題的展覽。
+                    <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3353.4862423985566!2d130.7033563151829!3d32.80234598096351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3540f41a8767935f%3A0x6b772099313098e9!2sKOKO%20HOTEL%20Premier%20Kumamoto!5e0!3m2!1szh-TW!2stw!4v1677741366113!5m2!1szh-TW!2stw4" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="food-section">
+                <span class="food-title">晚餐推薦</span>
+                <div class="food-item">
+                    <strong>1. 燒肉 須藤 (專人代烤)</strong> <span class="transport">🚊 通町筋站</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Yakiniku+Sudo+Kumamoto" target="_blank" class="nav-btn">導航</a>
+                </div>
+                <div class="food-item">
+                    <strong>2. 肥後之陣屋 (居酒屋)</strong> <span class="transport">🚊 花畑町站</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Higo+no+Jinya" target="_blank" class="nav-btn">導航</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="css-illustration day4-ill">
+            🚋🛍️
+            <div class="deco-circle" style="width: 90px; height: 90px; bottom: 10px; right: 40px;"></div>
+        </div>
+        <div class="card-body">
+            <span class="day-badge">Day 4</span>
+            <h2>最後採買與歸途</h2>
+
+            <div class="timeline-item">
+                <div class="time">10:00</div>
+                <div class="content">
+                    <span class="place-name">鶴屋百貨 / 櫻町商場</span>
+                    <span class="transport">步行</span> 採買伴手禮
+                    <a href="https://www.google.com/maps/search/?api=1&query=Tsuruya+Department+Store" target="_blank" class="nav-btn">📍 導航</a>
+                </div>
+            </div>
+
+            <div class="food-section" style="border-color: #81C784; background: #E8F5E9;">
+                <span class="food-title" style="color:#2E7D32">最後午餐 (櫻町商場)</span>
+                <div class="food-item">
+                    <strong>1. 五穀 (健康米飯定食)</strong>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Gokoku+Sakuramachi" target="_blank" class="nav-btn">導航</a>
+                </div>
+                <div class="food-item">
+                    <strong>2. 博多一風堂 (拉麵)</strong>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Ippudo+Sakuramachi" target="_blank" class="nav-btn">導航</a>
+                </div>
+            </div>
+
+            <div class="airport-box" style="margin-top: 20px;">
+                <div class="airport-icon">✈️</div>
+                <div>
+                    <strong>前往機場</strong><br>
+                    請至櫻町巴士總站 <strong>6 號乘車處</strong> 搭乘。<br>
+                    <span class="transport">直達</span> 熊本機場 (無需預約)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <h2>🗺️ 熊本市電路線圖</h2>
+        <p>市區景點主要靠 A 系統 (紅線) 與 B 系統 (藍線)</p>
+        <div class="map-placeholder">
+            🚋💨
+        </div>
+        <p style="font-size: 0.9rem; color: #888; margin-top: 10px;">(可愛示意圖，詳細路線請參考車站資訊)</p>
+    </div>
+
 </div>
-
-<div class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('day1', this)">
-        <span class="nav-icon">✈️</span> D1 抵達
-    </button>
-    <button class="nav-item" onclick="switchTab('day2', this)">
-        <span class="nav-icon">🍵</span> D2 庭園
-    </button>
-    <button class="nav-item" onclick="switchTab('day3', this)">
-        <span class="nav-icon">🏯</span> D3 城堡
-    </button>
-    <button class="nav-item" onclick="switchTab('day4', this)">
-        <span class="nav-icon">🏠</span> D4 回家
-    </button>
-</div>
-
-<script>
-    function switchTab(dayId, btnElement) {
-        var contents = document.getElementsByClassName('day-content');
-        for (var i = 0; i < contents.length; i++) {
-            contents[i].classList.remove('active');
-        }
-        document.getElementById(dayId).classList.add('active');
-
-        var buttons = document.getElementsByClassName('nav-item');
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].classList.remove('active');
-        }
-        btnElement.classList.add('active');
-        window.scrollTo(0, 0);
-    }
-
-    function openGuide() { document.getElementById('guideModal').style.display = 'flex'; }
-    function closeGuide() { document.getElementById('guideModal').style.display = 'none'; }
-    window.onclick = function(event) {
-        var modal = document.getElementById('guideModal');
-        if (event.target == modal) { modal.style.display = "none"; }
-    }
-</script>
 
 </body>
 </html>
